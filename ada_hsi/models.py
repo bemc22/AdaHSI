@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from ada_hsi.unet import Unet
 from ada_hsi.spixelnet.archs import SpixelNet
-from ada_hsi.utils import binary_softmax, ideal_spc
+from ada_hsi.utils import ideal_spc
 
 
 SP_ARCHS = {
@@ -40,22 +40,11 @@ class SPCApative(nn.Module):
             model_args['n_channels'] = model_args['n_channels'] + 2
 
         self.unet = model(**model_args)
-        self.act = binary_softmax
         self.sensing = ideal_spc
         
    
     def forward(self, inputs):        
-
-        x_ir, x_gs, D = inputs
-
-        xd_ir = self.sensing(x_ir, D)
-
-        _inputs = self.get_input(x_gs, xd_ir)
-        D2 = self.unet(_inputs) 
-        # D2b = self.act(D2)
-        # y2 = self.sensing(x, D2b)
-        #y3 = 0.5*(y1 + y2)
-        return D2, None
+        return self.unet(inputs) 
     
     def get_input(self, x, y):
 

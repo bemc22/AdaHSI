@@ -155,3 +155,33 @@ class AverageMeter(object):
 
     def __repr__(self):
         return '{:.3f} ({:.3f})'.format(self.val, self.avg)
+
+
+def recons_loss(y_true, prob, downsize, loss_fn):
+
+    # prob  = binary_softmax(prob)
+    y_est = poolfeat(y_true, prob, downsize, downsize)
+    y_est = upfeat(y_est, prob, downsize, downsize)
+    loss  = loss_fn(y_true, y_est)
+    
+    return loss
+
+
+def matrixSPC(x_tensor, H, rI=None):
+    # H is a matrix of size (S, H*W)
+    # HinvH = torch.matmul( torch.pinverse(H) , H)
+    HtH = torch.matmul( H.t() , H)
+    if rI is not None:
+        Hinv = HtH + rI
+    else:
+        Hinv = HtH
+
+    Hinv = torch.inverse(Hinv)
+    Hinv = torch.matmul(Hinv, HtH)
+    Hinv = Hinv.unsqueeze(0)
+    x_est = torch.flatten(x_tensor, start_dim=2)                # [B, C, H*W]
+    x_est = torch.transpose(x_est, 2, 1)    
+    x_est = torch.einsum('bij,bjk->bik', Hinv, x_est)           # [B, H*W, C]
+    x_est = torch.transpose(x_est, 2, 1)                        # [B, C, H*W]
+    x_est = torch.reshape(x_est, x_tensor.shape)                # [B, C, H, W]
+    return x_est

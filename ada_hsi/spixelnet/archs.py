@@ -61,6 +61,17 @@ class SpixelNet(nn.Module):
                 constant_(m.weight, 1)
                 constant_(m.bias, 0)
 
+    def fix_concat(self, x1, x2):
+        diffY = x2.size()[2] - x1.size()[2]
+        diffX = x2.size()[3] - x1.size()[3]
+
+        x1 = F.pad(x1, [diffX // 2, diffX - diffX // 2,
+                        diffY // 2, diffY - diffY // 2])
+
+        x = torch.cat([x2, x1], dim=1)
+        return x
+
+
     def forward(self, x):
         out1 = self.conv0b(self.conv0a(x)) #5*5
         out2 = self.conv1b(self.conv1a(out1)) #11*11
@@ -69,7 +80,10 @@ class SpixelNet(nn.Module):
         out5 = self.conv4b(self.conv4a(out4)) #95*95
 
         out_deconv3 = self.deconv3(out5)
-        concat3 = torch.cat((out4, out_deconv3), 1)
+
+
+        # concat3 = torch.cat((out4, out_deconv3), 1)
+        concat3 = self.fix_concat(out_deconv3, out4)
         out_conv3_1 = self.conv3_1(concat3)
 
         out_deconv2 = self.deconv2(out_conv3_1)
