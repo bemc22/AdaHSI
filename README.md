@@ -1,6 +1,6 @@
 # Deep Adaptive Superpixels for Hadamard Single Pixel Imaging in Near-Infrared Spectrum
 
-[![DOI:10.1109/ICASSP49357.2023.10095165](https://zenodo.org/badge/DOI/10.1109/ICASSP49357.2023.10095165.svg)](https://doi.org/10.1109/ICASSP49357.2023.10095165)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bemc22/AdaHSI/blob/main/notebooks/demo_inferece.ipynb) [![DOI:10.1109/ICASSP49357.2023.10095165](https://zenodo.org/badge/DOI/10.1109/ICASSP49357.2023.10095165.svg)](https://doi.org/10.1109/ICASSP49357.2023.10095165)
 
 ## Abstract
 
