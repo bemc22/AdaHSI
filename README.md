@@ -7,7 +7,7 @@
 Hadamard single-pixel imaging (HSI) is a promising sensing approach for acquiring spectral images in the near-infrared spectrum with high spatial resolution and fast recovery times due to the efficient invertible properties of the Hadamard matrix. The potential of the HSI system is diminished because of the large number of required measurements which implies long acquisition times. Recent advances proposed optimizing the HSI sensing matrix structure based on a superpixels map estimated from a side-information acquisition of the scene, reducing the number of required measurements. However, these matrix designs are detached from the recovery task, which falls on a sub-optimal strategy. In this work, we proposed an adaptive end-to-end sensing methodology for the HSI sensing matrix design based on deep superpixels estimation by coupling the sensing and recovery of the near-infrared spectral images. Experimental results show the superiority of the proposed sensing methodology compared with state-of-art sensing design schemes.
 
 
-## Demos
+## Colab Demo
 
 | Notebook      | Link          |
 | ------------- | ------------- |
