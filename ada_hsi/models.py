@@ -39,12 +39,12 @@ class SPCApative(nn.Module):
         if pos_encod:
             model_args['n_channels'] = model_args['n_channels'] + 2
 
-        self.model = model(**model_args)
+        self.unet = model(**model_args)
         self.sensing = ideal_spc
         
    
     def forward(self, inputs):        
-        return self.model(inputs) 
+        return self.unet(inputs) 
     
     def get_input(self, x, y):
 
@@ -69,7 +69,7 @@ class SPCApative(nn.Module):
         x, D = inputs
         y1 = self.sensing(x, D)
         _inputs = self.get_input(x, y1)
-        D2 = self.act( self.model(_inputs) )
+        D2 = self.act( self.unet(_inputs) )
         return D2
 
     def base_positional_encoding(self, input_shape):
